@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link rel="stylesheet" type="text/css" href="style.css" /> 
+    <title>Philadelphia, PA Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map { 
+      bottom: 0px;
+      height: 100%;
+      left: 362px;
+      position: absolute;
+      right: 0px; 
+    }
+    </style>
+  </head>
+  <body>
+ <div class="container">
+  <div class="options-box">
+    <h1>Philadelphia, PA</h1>
+    <div>
+      <input id="show-listings" type="button" value="Show Listings">
+      <input id="hide-listings" type="button" value="Hide Listings">
+      <hr>
+      <span class="text"> Draw a shape to search within the map to find places to visit!</span>
+      <input id="toggle-drawing" type="button" value="Drawing Tools">
+    </div>
+    <hr>
+    <div>
+      <input id="zoom-to-area-text" type="text" placeholder="Enter Your Favorite Area!">
+      <input id="zoom-to-area" type="button" value="Zoom">
+    </div>
+    <hr>
+    <div>
+      <span class="text"> Within </span>
+      <select id="max-duration">
+        <option value="10">10 min</option>
+        <option value="15">15 min</option>
+        <option value="30">30 min</option>
+        <option value="60">1 hour</option>
+      </select>
+      <select id="mode">
+        <option value="DRIVING">drive</option>
+        <option value="WALKING">walk</option>
+        <option value="DBICYCLING">bike</option>
+        <option value="TRANSIT">transit ride</option>
+      </select>
+      <span class="text">of</span>
+      <input id="search-within-time-text" type="text" placeholder="Ex: Your Home Address or Office Address">
+      <input id="search-within-time" type="button" value="Go">
+      </div>
+      <hr>
+      <div>
+        <span class="text">Search for Nearby Places</span>
+        <input id="places-search" type="text" placeholder="EX: Pizza Delivery">
+        <input id="go-places" type="button" value="Go">
+      </div>
+    </div>
+    <div id="map">
+    </div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 39.9675, lng: -75.16913},
+          zoom: 13
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-ZS76AM7sWAayKwB8233x-gjqVCl5Dto&callback=initMap"
+    async defer></script>
+    <script src="main.js"></script>
+  </body>
+</html>
+
