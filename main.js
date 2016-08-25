@@ -297,7 +297,7 @@ var map;
             // Create a marker for each place.
             var marker = new google.maps.Marker({
               map: map,
-              icom: icom,
+              icon: icon,
               title: place.name,
               position: place.geometry.location,
               id: place.id
