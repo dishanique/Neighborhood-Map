@@ -4,6 +4,9 @@ Description: This project is a neighborhood map displaying popular places in Phi
 
 API: Google Map API
 
+
+Tools: HTML, CSS, JavaScript, Knockout JS
+
 Note: Open index.html in browser to run the map 
 
 Resource(s): Udacity Hello Map Quiz
