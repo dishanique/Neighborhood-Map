@@ -2,7 +2,7 @@
 <html>
   <head>
   <link rel="stylesheet" type="text/css" href="style.css" /> 
-    <title>Philadelphia, PA Map</title>
+    <title>Private Schools in Philadelphia, PA Map</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
@@ -23,20 +23,21 @@
   <body>
  <div class="container">
   <div class="options-box">
-    <h1>Philadelphia, PA</h1>
+    <h1>PK/K-12 Schools in Philadelphia and Surrounding Areas</h1>
+    <h3>For the parent who values Private, Independent, and Quacker Schools.</h3>
     <div>
       <input id="show-listings" type="button" value="Show Listings">
       <input id="hide-listings" type="button" value="Hide Listings">
       <hr>
-      <span class="text"> Draw a shape to search within the map to find places to visit!</span>
+      <span class="text"> Draw a shape to search within the map to find schools!</span>
       <input id="toggle-drawing" type="button" value="Drawing Tools">
     </div>
     <hr>
-    <div>
+    <!-- <div>
       <input id="zoom-to-area-text" type="text" placeholder="Enter Your Favorite Area!">
       <input id="zoom-to-area" type="button" value="Zoom">
     </div>
-    <hr>
+    <hr> -->
     <div>
       <span class="text"> Within </span>
       <select id="max-duration">
@@ -48,7 +49,6 @@
       <select id="mode">
         <option value="DRIVING">drive</option>
         <option value="WALKING">walk</option>
-        <option value="DBICYCLING">bike</option>
         <option value="TRANSIT">transit ride</option>
       </select>
       <span class="text">of</span>
@@ -57,9 +57,13 @@
       </div>
       <hr>
       <div>
-        <span class="text">Search For More Nearby Places</span>
-        <input id="places-search" type="text" placeholder="EX: Pizza Delivery">
+        <span class="text">Search For More Nearby Schools</span>
+        <input id="places-search" type="text" placeholder="EX: Private School">
         <input id="go-places" type="button" value="Go">
+      </div>
+      <hr>
+      <div>
+        <span class="text">Here are a few well respected schools to get you started!!!</span>
       </div>
 
       <ul data-bind="foreach: locationList">
@@ -73,7 +77,7 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 39.9675, lng: -75.16913},
-          zoom: 13
+          zoom: 15
         });
       }
     </script>
