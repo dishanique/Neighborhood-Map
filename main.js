@@ -230,6 +230,12 @@ var map;
           }
         }
 
+        function hideListings() {
+          for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+          }
+        }
+
         function zoomToArea() {
           // Initialize Geocoder
           var geocoder = new google.maps.Geocoder();
@@ -492,10 +498,29 @@ var map;
         // Hides all markers outside the polygon, shows only the markers within.
         function searchWithinPolygon() {
           for (var i = 0; i < markers.length; i++) {
-            if (google.maps.geometry.poly.containsLocation(marker[i].position)) {
+            if (google.maps.geometry.poly.containsLocation(markers[i].position,polygon)) {
               markers[i].setMap(map);
             } else {
               markers[i].setMap(null);
             }
           }
         }
+
+
+function viewModel () {
+  var self = this;
+
+  self.locationList = ko.observableArray([
+        {title: 'Eastern State Penitentiary', location: {lat: 39.968336 , lng: -75.172665 }},
+        {title: 'Girard College', location: {lat: 39.973628 , lng: -75.172778 }},
+        {title: 'The Franklin Institute', location: {lat: 39.958211 , lng: -75.173135 }},
+        {title: 'The Academy of Natural Sciences', location: {lat: 39.957119 , lng: -75.171212 }},
+        {title: 'Free Library of Philadelphia', location: {lat: 39.959633 , lng: -75.171043  }}
+      ]);
+
+  self.listClick = function(loc) {
+    console.log(loc);
+  }
+}
+
+ko.applyBindings(new viewModel);
