@@ -57,10 +57,14 @@
       </div>
       <hr>
       <div>
-        <span class="text">Search for Nearby Places</span>
+        <span class="text">Search For More Nearby Places</span>
         <input id="places-search" type="text" placeholder="EX: Pizza Delivery">
         <input id="go-places" type="button" value="Go">
       </div>
+
+      <ul data-bind="foreach: locationList">
+        <li data-bind="text: title, click: $root.listClick"></li>
+      </ul>
     </div>
     <div id="map">
     </div>
@@ -73,9 +77,12 @@
         });
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-ZS76AM7sWAayKwB8233x-gjqVCl5Dto&callback=initMap"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-ZS76AM7sWAayKwB8233x-gjqVCl5Dto&callback=initMap&libraries=places,drawing"
     async defer></script>
     <script src="main.js"></script>
   </body>
 </html>
+
+
 
