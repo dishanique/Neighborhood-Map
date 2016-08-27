@@ -76,11 +76,13 @@ var map;
 
         // Places to Visit markers
         var locations = [
-        {title: 'Eastern State Penitentiary', location: {lat: 39.968336 , lng: -75.172665 }},
-        {title: 'Girard College', location: {lat: 39.973628 , lng: -75.172778 }},
-        {title: 'The Franklin Institute', location: {lat: 39.958211 , lng: -75.173135 }},
-        {title: 'The Academy of Natural Sciences', location: {lat: 39.957119 , lng: -75.171212 }},
-        {title: 'Free Library of Philadelphia', location: {lat: 39.959633 , lng: -75.171043  }}
+        {title: 'Friends Select School', location: {lat: 39.956348 , lng: -75.166956 }},
+        {title: 'Germantown Friends School', location: {lat: 40.032816 , lng: -75.171196 }},
+        {title: 'William Penn Charter School', location: {lat: 40.021935 , lng: -75.186274 }},
+        {title: 'Springside Chestnut Hill Academy', location: {lat: 40.061558, lng: -75.209535 }},
+        {title: 'The Shipley School', location: {lat: 40.024923 , lng: -75.315235 }},
+        {title: 'The Haverford School', location: {lat: 40.014304 , lng: -75.305507 }},
+        {title: 'The Philadelphia School', location: {lat: 39.946964 , lng: -75.182295 }}
         ];
 
         var largeInfowindow = new google.maps.InfoWindow();
@@ -99,10 +101,10 @@ var map;
         });
 
         // Style Markers
-        var defaultIcon = makeMarkerIcon('0091ff');
+        var defaultIcon = makeMarkerIcon('AFD7CD'); 
 
-        // Highlighted location and mouseover
-        var highlightedIcon = makeMarkerIcon('FFFF24');
+        // Highlighted location school and mouseover
+        var highlightedIcon = makeMarkerIcon('FFD79C');
 
 
         for  (var i = 0; i < locations.length; i++) {
@@ -138,10 +140,6 @@ var map;
       document.getElementById('toggle-drawing').addEventListener('click', function() {
         toggleDrawing(drawingManager);
         });
-
-      document.getElementById('zoom-to-area').addEventListener('click', function() {
-        zoomToArea();
-      });
 
       document.getElementById('search-within-time').addEventListener('click', function() {
         searchWithinTime();
@@ -265,14 +263,14 @@ var map;
           function searchBoxPlaces(searchBox) {
             hideMarkers(placesMarkers);
             var places = searchBox.getPlaces();
-            // For each place, get the icon, name, and location
+            // For each school, get the icon, name, and location
             createMarkersForPlaces(places);
             if (places.length == 0) {
               window.alert('We did not find and places matching that search');
             }
           }
 
-          // When user select "go" on the places seach
+          // When user select "go" on the school seach box
           function textSearchPlaces() {
             var bounds = map.getBounds();
             hideMarkers(placeMarkers);
@@ -287,7 +285,7 @@ var map;
             });
           }
 
-          // Creates markers for each place found in either places search
+          // Creates markers for each place found in either school search
           function createMarkersForPlaces(places) {
             var bounds = new google.maps.LatLngBounds();
             for (var i = 0; i < places.length; i++) {
@@ -300,7 +298,7 @@ var map;
                 scaledSize: new google.maps.Size(25, 25)
               };
 
-            // Create a marker for each place.
+            // Create a marker for each school.
             var marker = new google.maps.Marker({
               map: map,
               icon: icon,
@@ -311,7 +309,7 @@ var map;
 
             // Create single infowindow
             var placeInfoWindow = new google.maps.InfoWindow();
-            // If marker clicked, do place details
+            // If marker clicked, do school details
             marker.addListener('click', function() {
               if (placeInfoWindow.marker == this) {
                 console.log("This infowindow already is on this marker");  
@@ -331,86 +329,16 @@ var map;
             map.fitBounds(bounds);
           }
 
-        //   // Place Details search
-        //   function getPlacesDetails(marker, infowindow) {
-        //     var service = new google.maps.places.PlaceService(map);
-        //     service.getDetails({
-        //       placeId: marker.id
-        //     }. function(place, status) {
-        //       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        //         // Set the marker propert on infowindow
-        //         infowindow.marker = marker;
-        //         var innerHTML = '<div';
-        //         if (place.name) {
-        //           innerHTML += '<strong>' + place.name + '</strong>';
-        //         }
-        //         if (place.formatted_address) {
-        //           innerHTML += '<hr>' + place.formatted_address;
-        //         }
-        //         if (place.formatted_phone_number) {
-        //           innerHTML += '<br>' + place.formatted_phone_number;
-        //         }
-        //         if (place.opening_hours) {
-        //           innerHTML += '<br><br><strong>Hours: </strong><br>' +
-        //           place.opening_hours.weeday_text[0] + '<br>' +
-        //           place.opening_hours.weeday_text[1] + '<br>' +
-        //           place.opening_hours.weeday_text[2] + '<br>' +
-        //           place.opening_hours.weeday_text[3] + '<br>' +
-        //           place.opening_hours.weeday_text[4] + '<br>' +
-        //         }
-        //         if (place.photos) {
-        //           innerHTML += '<br><br><img src="' + place.photos[0].getURl(
-        //           {maxHeight: 100, maxWidth: 200}) + '">';
-        //         }
-        //         innerHTML += '</div>';
-        //         infowindow.setContent(innerHTML);
-        //         infowindow.open(map, marker);
-        //         // Make sure marker property is cleared if infowindow is closed
-        //         infowindow.addListener('closeclick', function() {
-        //           infowindow.marker = null;
-        //         })
-        //       }
-        //     }
-        //     })
-        //   }
-
-        // function displayDirections(origins) {
-        //   hideListings();
-        //   var directionsService = new google.maps.DirectionsService;
-        //   var destinationAddress = 
-        //     document.getElementById('search-within-time-text').value;
-        //   var mode = document.getElementById('mode').value;
-        //   directionsService.route({
-        //     origin: origin,
-        //     destination: destinationAddress,
-        //     travelMode: google.maps.TravelMode[mode]
-        //     ), function(response, status) {
-        //     if (status === google.maps.DirectionsStatus.OK) {
-        //       var directionsDisplay = new google.maps.DirectionsRenderer({
-        //         map: map,
-        //         directions: response,
-        //         draggable: true,
-        //         polylineOptions: {
-        //           strokeColor: 'green'
-        //         }
-        //       });
-        //     } else {
-        //       window.alert:'Directions request failed due to ' + status);
-        //     }
-        //   });
-        //   }
-        // }
-
         function searchWithinTime() {
-          // Distance Matrix Service
+          // Distance service option
           var distanceMatrixService = new google.maps.DistanceMatrixService;
           var address = document.getElementById('search-within-time-text').value;
-          // Check to make sure the place entered isn't blank
+          // Check to make sure the school entered isn't blank
           if (address == '') {
             window.alert('You Must Enter An Address.');
           } else {
             hideListings();
-            // Use distance matrix service to calculate distance of routes between all markers
+            // Use distance service option to calculate distance of routes between all markers
             var origins = [];
             for (var i = 0; i < markers.length; i++) {
               origins[i] = markers[i].position;
@@ -482,11 +410,11 @@ var map;
           return markerImage;
         }
         
-        // Shows and hides drawing options
+        // Shows and hides drawing options to create polygon around a specific area to search for more schools 
         function toggleDrawing(drawingManager) {
           if (drawingManager.map) {
             drawingManager.setMap(null);
-            // If user drew anything, get rid of polygon
+            // If user drew anything, gets rid of polygon
             if(polygon) {
               polygon.setMap(null);
             }
@@ -511,12 +439,14 @@ function viewModel () {
   var self = this;
 
   self.locationList = ko.observableArray([
-        {title: 'Eastern State Penitentiary', location: {lat: 39.968336 , lng: -75.172665 }},
-        {title: 'Girard College', location: {lat: 39.973628 , lng: -75.172778 }},
-        {title: 'The Franklin Institute', location: {lat: 39.958211 , lng: -75.173135 }},
-        {title: 'The Academy of Natural Sciences', location: {lat: 39.957119 , lng: -75.171212 }},
-        {title: 'Free Library of Philadelphia', location: {lat: 39.959633 , lng: -75.171043  }}
-      ]);
+        {title: 'Friends Select School', location: {lat: 39.956348 , lng: -75.166956 }},
+        {title: 'Germantown Friends School', location: {lat: 40.032816 , lng: -75.171196 }},
+        {title: 'William Penn Charter School', location: {lat: 40.021935 , lng: -75.186274 }},
+        {title: 'Springside Chestnut Hill Academy', location: {lat: 40.061558, lng: -75.209535 }},
+        {title: 'The Shipley School', location: {lat: 40.024923 , lng: -75.315235 }},
+        {title: 'The Haverford School', location: {lat: 40.014304 , lng: -75.305507 }},
+        {title: 'The Philadelphia School', location: {lat: 39.946964 , lng: -75.182295 }}
+        ]);
 
   self.listClick = function(loc) {
     console.log(loc);
