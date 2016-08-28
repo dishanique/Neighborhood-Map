@@ -66,9 +66,9 @@
         <span class="text">Here are a few well respected schools to get you started!!!</span>
       </div>
 
-      <ul data-bind="foreach: locationList">
-        <li data-bind="text: title, click: $root.listClick"></li>
-      </ul>
+      <ul data-bind="foreach:filteredPlaces">
+          <a href="#"><li data-bind="text:title, click:$root.clickMarker"></li></a>
+        </ul>
     </div>
     <div id="map">
     </div>
@@ -76,7 +76,7 @@
       var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 39.9675, lng: -75.16913},
+          center: {lat: 39.952584, lng: -75.165222},
           zoom: 15
         });
       }
@@ -87,6 +87,3 @@
     <script src="main.js"></script>
   </body>
 </html>
-
-
-
