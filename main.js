@@ -76,17 +76,31 @@ var map;
 
         // Places to Visit markers
         var locations = [
-        {title: 'Friends Select School', location: {lat: 39.956348 , lng: -75.166956 }},
-        {title: 'Germantown Friends School', location: {lat: 40.032816 , lng: -75.171196 }},
-        {title: 'William Penn Charter School', location: {lat: 40.021935 , lng: -75.186274 }},
-        {title: 'Springside Chestnut Hill Academy', location: {lat: 40.061558, lng: -75.209535 }},
-        {title: 'The Shipley School', location: {lat: 40.024923 , lng: -75.315235 }},
-        {title: 'The Haverford School', location: {lat: 40.014304 , lng: -75.305507 }},
-        {title: 'The Philadelphia School', location: {lat: 39.946964 , lng: -75.182295 }}
+        {title: 'Friends Select School - We believe in the Quaker values of respect for all, simplicity, the peaceful resolution of conflict, and a constant search for truth.', location: {lat: 39.956348 , lng: -75.166956 }},
+        {title: 'Germantown Friends School - Dedicated to reaching that of God in every person. Our mission is to seek truth, challenge the intellect, honor differences, embrace the city, and nurture each student’s mind, body and spirit.', location: {lat: 40.032816 , lng: -75.171196 }},
+        {title: 'William Penn Charter School - We value scholarship and inquiry. With excellence as our standard, we challenge students in a vigorous program of academics, arts and athletics.', location: {lat: 40.021935 , lng: -75.186274 }},
+        {title: 'Springside Chestnut Hill Academy - We educate students to be innovative leaders, breakthrough thinkers, and imaginative problem solvers.', location: {lat: 40.061558, lng: -75.209535 }},
+        {title: 'The Shipley School - Through a balance of rigor and support, our students become confident, successful individuals who are better prepared to meet future challenges, and continue the journey that began here at Shipley.', location: {lat: 40.024923 , lng: -75.315235 }},
+        {title: 'The Haverford School - Seeks to prepare boys to succeed and provide leadership in a world that is globally and culturally interconnected, technologically ever-advancing, and environmentally vulnerable.', location: {lat: 40.014304 , lng: -75.305507 }},
+        {title: 'The Philadelphia School - A progressive school and vibrant learning community, is to educate the character and intellect of children.', location: {lat: 39.946964 , lng: -75.182295 }}
         ];
 
         var largeInfowindow = new google.maps.InfoWindow();
         var bounds = new google.maps.LatLngBounds();
+
+        // add wiki api search functionality for each place
+              // var wikiURL ='https://en.wikipedia.org/w/api.php?action=opensearch&format=json&callback=wikiCallBack&search=';
+
+              // $.ajax({
+              //   url: wikiURL+marker.search,
+              //   dataType: 'jsonp',
+              //   timeout: 1000
+              // }).done(function(data) {
+              //   document.getElementById('Wiki').innerHTML = '<p>' + '<a href=' + data[3][0] + ' target="blank">Wikipedia</a></p>';
+              //   }).fail(function(jqXHR, textStatus){
+              //   alert("The Wikipedia link search failed.");
+              // });
+
 
         // Initialize drawing manager 
         var drawingManager = new google.maps.drawing.DrawingManager({
@@ -435,22 +449,57 @@ var map;
         }
 
 
-function viewModel () {
-  var self = this;
+// function viewModel () {
+//   var self = this;
 
-  self.locationList = ko.observableArray([
-        {title: 'Friends Select School', location: {lat: 39.956348 , lng: -75.166956 }},
-        {title: 'Germantown Friends School', location: {lat: 40.032816 , lng: -75.171196 }},
-        {title: 'William Penn Charter School', location: {lat: 40.021935 , lng: -75.186274 }},
-        {title: 'Springside Chestnut Hill Academy', location: {lat: 40.061558, lng: -75.209535 }},
-        {title: 'The Shipley School', location: {lat: 40.024923 , lng: -75.315235 }},
-        {title: 'The Haverford School', location: {lat: 40.014304 , lng: -75.305507 }},
-        {title: 'The Philadelphia School', location: {lat: 39.946964 , lng: -75.182295 }}
-        ]);
+//   self.locationList = ko.observableArray([
+//         {title: 'Friends Select School', location: {lat: 39.956348 , lng: -75.166956 }},
+//         {title: 'Germantown Friends School', location: {lat: 40.032816 , lng: -75.171196 }},
+//         {title: 'William Penn Charter School', location: {lat: 40.021935 , lng: -75.186274 }},
+//         {title: 'Springside Chestnut Hill Academy', location: {lat: 40.061558, lng: -75.209535 }},
+//         {title: 'The Shipley School', location: {lat: 40.024923 , lng: -75.315235 }},
+//         {title: 'The Haverford School', location: {lat: 40.014304 , lng: -75.305507 }},
+//         {title: 'The Philadelphia School', location: {lat: 39.946964 , lng: -75.182295 }}
+//         ]);
 
-  self.listClick = function(loc) {
-    console.log(loc);
-  }
-}
+//   self.listClick = function(loc) {
+//     console.log(loc);
+//   }
+// }
 
-ko.applyBindings(new viewModel);
+// ko.applyBindings(new viewModel);
+
+// markers to operate within side bar
+var model = function() {
+        var self = this;
+        self.placesList = ko.observableArray(locations);
+
+        self.placesList().forEach(function(location, place) {
+          location.marker = markers[place];
+        });
+
+    self.query = ko.observable('');
+    self.filteredPlaces = ko.computed(function() {
+    return ko.utils.arrayFilter(self.placesList(), function(location) {
+      if (location.type.toLowerCase().indexOf(self.query().toLowerCase()) >= 0) {
+      location.marker.setVisible(true);
+      return true;
+      } else {
+      location.marker.setVisible(false);
+      return false;
+      }
+      });
+      }, self);
+
+        self.marker = ko.observableArray(markers);
+
+        self.clickMarker = function(location) {
+          populateInfoWindow(location.marker, largeInfowindow);
+          location.marker.setAnimation(google.maps.Animation.BOUNCE);
+          stopAnimation(location.marker);
+        };
+      };
+
+      window.onload = function() {
+        ko.applyBindings(new model());
+      };
