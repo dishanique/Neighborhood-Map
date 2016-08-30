@@ -1,4 +1,4 @@
-var map,
+ar map,
     largeInfowindow;
 
 // Creates a new blank array for listing markers
@@ -117,8 +117,8 @@ function initMap() {
     });
 
     // Autocomplete to search within entry box
-    var timeAutocomplete = new google.maps.places.Autocomplete(
-        document.getElementById('search-within-time-text'));
+    // var timeAutocomplete = new google.maps.places.Autocomplete(
+    //     document.getElementById('search-within-time-text'));
     // Autocomplete for use in geocoder entry box
     /*var zoomAutocomplete = new google.maps.places.Autocomplete(
         document.getElementById('zoom-to-area-text'));
@@ -166,13 +166,14 @@ function initMap() {
             title: title,
             icon: defaultIcon,
             animation: google.maps.Animation.DROP,
+            // description: locations[i].description,
             id: i
         });
         markers.push(marker);
         bounds.extend(marker.position);
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
-            console.log('click');
+            // console.log('click');
         });
 
         marker.addListener('mouseover', function() {
@@ -221,7 +222,7 @@ function initMap() {
 function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
-        infowindow.setContent('<div>' + marker.title + '</div>');
+        infowindow.setContent('<div>' + marker.title + '</div>' + marker.destinations + '</div>');
         infowindow.open(map, marker);
         infowindow.addListener('closeclick', function() {
             infowindow.setMarker(null);
@@ -248,14 +249,14 @@ function populateInfoWindow(marker, infowindow) {
         var wikiURL ='https://en.wikipedia.org/w/api.php?action=opensearch&format=json&callback=wikiCallBack&search=';
 
         function getWiki(nearStreetViewLocation,heading) {
-          console.log('get');
+          // console.log('get');
           $.ajax({
             type: 'GET', // I had to add this parameter for the request to work
             url: wikiURL+'Wikipedia', 
             dataType: 'jsonp',
             timeout: 1000
           }).done(function(data) {
-            console.log(data);
+            // console.log(data);
             contentString += '<p>' + data[2][0] + '</p>';
             infowindow.setContent(contentString);
             var panoramaOptions = {
@@ -373,13 +374,14 @@ function createMarkersForPlaces(places) {
             title: place.name,
             position: place.geometry.location,
             id: place.id
+
         });
 
         // Create single infowindow
         var placeInfoWindow = new google.maps.InfoWindow();
         // If marker clicked, do school details
         marker.addListener('click', function() {
-          console.log('click');
+          // console.log('click');
             if (placeInfoWindow.marker == this) {
                 console.log("This infowindow already is on this marker");
             } else {
@@ -398,75 +400,75 @@ function createMarkersForPlaces(places) {
     map.fitBounds(bounds);
 }
 
-function searchWithinTime() {
-    // Distance service option
-    var distanceMatrixService = new google.maps.DistanceMatrixService;
-    var address = document.getElementById('search-within-time-text').value;
-    // Check to make sure the school entered isn't blank
-    if (address == '') {
-        window.alert('You Must Enter An Address.');
-    } else {
-        hideListings();
-        // Use distance service option to calculate distance of routes between all markers
-        var origins = [];
-        for (var i = 0; i < markers.length; i++) {
-            origins[i] = markers[i].position;
-        }
-        var destination = address;
-        var mode = document.getElementById('mode').value;
-        // Both origins and destinations are defined, gets info for distances between then
-        distanceMatrixService.getDistanceMatrix({
-            origins: origins,
-            destinations: [destination],
-            travelMode: google.maps.travelMode[mode],
-            unitSystem: google.maps.UnitSystem.IMPERIAL,
-        }, function(response, status) {
-            if (status !== google.maps.DistanceMatrixStatus.OK) {
-                window.alert('Error was: ' + status);
-            } else {
-                displayMarkersWithinTime(response);
-            }
-        });
-    }
-}
+// function searchWithinTime() {
+//     // Distance service option
+//     var distanceMatrixService = new google.maps.DistanceMatrixService;
+//     var address = document.getElementById('search-within-time-text').value;
+//     // Check to make sure the school entered isn't blank
+//     if (address == '') {
+//         window.alert('You Must Enter An Address.');
+//     } else {
+//         hideListings();
+//         // Use distance service option to calculate distance of routes between all markers
+//         var origins = [];
+//         for (var i = 0; i < markers.length; i++) {
+//             origins[i] = markers[i].position;
+//         }
+//         var destination = address;
+//         var mode = document.getElementById('mode').value;
+//         // Both origins and destinations are defined, gets info for distances between then
+//         distanceMatrixService.getDistanceMatrix({
+//             origins: origins,
+//             destinations: [destination],
+//             travelMode: google.maps.travelMode[mode],
+//             unitSystem: google.maps.UnitSystem.IMPERIAL,
+//         }, function(response, status) {
+//             if (status !== google.maps.DistanceMatrixStatus.OK) {
+//                 window.alert('Error was: ' + status);
+//             } else {
+//                 displayMarkersWithinTime(response);
+//             }
+//         });
+//     }
+// }
 
 // Function will go through each result and if distance is less than the value in the picker, it will be shown in map.
-function displayMarkersWithinTime(response) {
-    var maxDuration = document.getElementById('max-duration').value;
-    var origins = response.originsAddresses;
-    var destinations = response.destinationAddresses;
-    // Distance and duration of results
-    var atLeastOne = false;
-    for (var i = 0; i < origins.length; i++) {
-        var results = response.rows[i].elements;
-        for (var j = 0; j < results.length; j++) {
-            var element = results[j];
-            if (element.status === "OK") {
-                // Distance is returned in feet, text in miles 
-                var distanceText = element.distance.text;
-                // Duration value is given in seconds so we make it minutes 
-                var duration = element.duration.value / 60;
-                var durationText = element.duration.text;
-                if (duration <= maxDuration) {
-                    // origin [i] should = the markers[i]
-                    markers[i].setMap(map);
-                    atLeastOne = true;
-                    // Mini infowindow which will open immediately and contain distance in duration 
-                    var infowindow = new google.maps.InfoWindow({
-                        content: durationText + ' away, ' + distanceText +
-                            '<div><input type=\"button\" value=\"View Route\" onclick =' + '\"displayDirections(&quot;' + origins[i] + '&quot;);\"></input></div>'
-                    });
-                    infowindow.open(map, markers[i]);
-                    // Small Window closes if user clicks the marker when big infowindow opens
-                    markers[i].infowindow = infowindow;
-                    google.maps.event.addListener(markers[i], 'click', function() {
-                        this.infowindow.close();
-                    });
-                }
-            }
-        }
-    }
-}
+// function displayMarkersWithinTime(response) {
+//     var maxDuration = document.getElementById('max-duration').value;
+//     var origins = response.originsAddresses;
+//     var destinations = response.destinationAddresses;
+//     // Distance and duration of results
+//     var atLeastOne = false;
+//     for (var i = 0; i < origins.length; i++) {
+//         var results = response.rows[i].elements;
+//         for (var j = 0; j < results.length; j++) {
+//             var element = results[j];
+//             if (element.status === "OK") {
+//                 // Distance is returned in feet, text in miles 
+//                 var distanceText = element.distance.text;
+//                 // Duration value is given in seconds so we make it minutes 
+//                 var duration = element.duration.value / 60;
+//                 var durationText = element.duration.text;
+//                 if (duration <= maxDuration) {
+//                     // origin [i] should = the markers[i]
+//                     markers[i].setMap(map);
+//                     atLeastOne = true;
+//                     // Mini infowindow which will open immediately and contain distance in duration 
+//                     var infowindow = new google.maps.InfoWindow({
+//                         content: durationText + ' away, ' + distanceText +
+//                             '<div><input type=\"button\" value=\"View Route\" onclick =' + '\"displayDirections(&quot;' + origins[i] + '&quot;);\"></input></div>'
+//                     });
+//                     infowindow.open(map, markers[i]);
+//                     // Small Window closes if user clicks the marker when big infowindow opens
+//                     markers[i].infowindow = infowindow;
+//                     google.maps.event.addListener(markers[i], 'click', function() {
+//                         this.infowindow.close();
+//                     });
+//                 }
+//             }
+//         }
+//     }
+// }
 
 function makeMarkerIcon(markerColor) {
     var markerImage = new google.maps.MarkerImage(
@@ -503,7 +505,7 @@ function searchWithinPolygon() {
     }
 }
 
-// markers to operate within side bar
+// Markers to operate within side bar
 var model = function() {
     var self = this;
     self.placesList = ko.observableArray(locations);
