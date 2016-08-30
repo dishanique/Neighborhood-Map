@@ -193,9 +193,9 @@ function initMap() {
         toggleDrawing(drawingManager);
     });
 
-    document.getElementById('search-within-time').addEventListener('click', function() {
-        searchWithinTime();
-    });
+    // document.getElementById('search-within-time').addEventListener('click', function() {
+    //     searchWithinTime();
+    // });
 
     // Event Listener so polygon is captured, call seach within polygon function, and shows markers in polygon and hide outside of it
     drawingManager.addListener('overlaycomplete', function(event) {
