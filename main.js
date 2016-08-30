@@ -1,4 +1,4 @@
-ar map,
+var map,
     largeInfowindow;
 
 // Creates a new blank array for listing markers
@@ -166,7 +166,7 @@ function initMap() {
             title: title,
             icon: defaultIcon,
             animation: google.maps.Animation.DROP,
-            // description: locations[i].description,
+            description: locations[i].description,
             id: i
         });
         markers.push(marker);
