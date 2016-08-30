@@ -12,7 +12,7 @@ Google Map, Wikipedia
 
 ## Tools: 
 
-HTML, CSS, JavaScript, Knockout JS
+HTML, CSS, JavaScript, Knockout JS, AJAX
 
 ## Note: 
 
