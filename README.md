@@ -4,11 +4,11 @@ This project is a neighborhood map displaying popular Private, Independent, and 
 
 ## Features: 
 
-Markers change color every time you hover over or click on one and users have the ability to use a drawing tool to display specific schools in the area they desire in polygon shape. In addition, the user may search for more schools in the single search box with the ability to search using distance and transportation options. Furthermore, the user may show and hide default school listing/markers on the map.
+Markers change color every time user hover over or click on marker. Markers will also bounce on selection. Users have the ability to use a drawing tool to display specific schools in the area they desire in polygon shape just for a zoom-in effect. Furthermore, the user may show and hide default school listing/markers on the map.
 
 ## API: 
 
-Google Map, Wikipedia
+Google Map, Wikipedia (for description of schools)
 
 ## Tools: 
 
@@ -16,7 +16,7 @@ HTML, CSS, JavaScript, Knockout JS, AJAX
 
 ## Note: 
 
-Open index.html in browser to run the map
+Open index.html in browser to run the map (temporary method)
 
 ## Resource(s): 
 
