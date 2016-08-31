@@ -1,4 +1,22 @@
-.options-box {
+html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1, h3 {
+        font-family: 'Quicksand', sans-serif;
+      }
+
+      #map {
+      bottom: 0px;
+      height: 100%;
+      left: 362px;
+      position: absolute;
+      right: 0px;
+    }
+
+    .options-box {
       background: #AFD7CD;
       border: 3px solid #999;
       border-radius: 3px;
