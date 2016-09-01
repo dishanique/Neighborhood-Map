@@ -145,6 +145,10 @@ function initMap() {
             // console.log('click');
         });
 
+        // menu.addEventListener('click', function(e) {
+        //     drawer.classList.toggle('open');
+        //     e.stopPropagation();
+        // });
         marker.addListener('mouseover', function() {
             this.setIcon(highlightedIcon);
         });
@@ -200,18 +204,6 @@ function populateInfoWindow(marker, infowindow) {
             dataType: 'jsonp',
             timeout: 1000
           }).done(function(data) {
-           // console.log(data);
-            /* ADD TEST TO SEE IF DATA EXISTS AND ADD FALLBACK IF IT DOESN'TEST
-               Test uses a ternary statement. Read more about ternarys here:
-               https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
-               It is equvalent to:
-                    var schoolDescription;
-                    if (data[2][0] !== "" ) {
-                      schoolDescription = data[2][0];
-                    } else {
-                      schoolDescription = "No description avaiable";
-                    }
-               */
             var schoolDescription = data[2][0] ? data[2][0] : "No description avaiable";  // Ternary -- see above
             contentString += '<p>' +  schoolDescription + '</p>';
             infowindow.setContent(contentString);
