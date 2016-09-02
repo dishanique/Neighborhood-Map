@@ -9,9 +9,11 @@
   </head>
   <body>
  <div class="container">
-  <div class="options-box">
+  <img src="nav.svg" class="list-toggle" data-bind="click: listToggle"/>
+  <div class="options-box" id="list"  data-bind="css: { closed: !open() }">
     <h1>PK/K-12 Schools in Philadelphia and Surrounding Areas</h1>
     <h3>For the parent who values Private, Independent, and Quaker school education.</h3>
+
     <div>
       <input id="show-listings" type="button" value="Show Listings">
       <input id="hide-listings" type="button" value="Hide Listings">
@@ -35,8 +37,9 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-ZS76AM7sWAayKwB8233x-gjqVCl5Dto&callback=initMap&libraries=places,drawing"
-    async defer></script>
     <script src="main.js"></script>
+<!-- Added "onerror" to trigger error handling response when Google Maps fails -->
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-ZS76AM7sWAayKwB8233x-gjqVCl5Dto&callback=initMap&libraries=places,drawing"
+        async defer onerror="googleError()"></script>
   </body>
 </html>
