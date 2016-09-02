@@ -168,7 +168,7 @@ function populateInfoWindow(marker, infowindow) {
         infowindow.setContent('<div>' + marker.title + '</div>' + marker.destinations + '</div>');
         infowindow.open(map, marker);
         infowindow.addListener('closeclick', function() {
-            infowindow.setMarker(null);
+            infowindow.marker = null;
         });
         var streetViewService = new google.maps.StreetViewService();
         var radius = 50;
@@ -189,8 +189,7 @@ function populateInfoWindow(marker, infowindow) {
         }
 
 // For wikipedia API
-        var wikiURL ='https://en.wikisfgfsgsdfpedia.org/w/api.php?action=opensearch&format=json&callback=wikiCallBack&search=';
-
+        var wikiURL ='https://en.wikipedia.org/w/api.php?action=opensearch&format=json&callback=wikiCallBack&search=';
 
         
         function getWiki(nearStreetViewLocation,heading) {
@@ -337,17 +336,18 @@ var model = function() {
     });
 
     self.query = ko.observable('');
-    self.filteredPlaces = ko.computed(function() {
-        return ko.utils.arrayFilter(self.placesList(), function(location) { console.log(location)
-            if (location.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0) {
-                location.marker.setVisible(true);
-                return true;
-            } else {
-                location.marker.setVisible(false);
-                return false;
-            }
-        });
-    }, self);
+    self.filteredPlaces = ko.computed(function() { console.log(location)
+    return ko.utils.arrayFilter(self.placesList(), function(location) { console.log(location)
+        if (location.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0) {
+            location.marker.setVisible(true);
+            return true;
+        } else { 
+            location.marker.setVisible(false);
+            largeInfowindow.close();  // close infowindow 
+            return false;
+        }
+    });
+}, self);
 
     self.marker = ko.observableArray(markers);
 
