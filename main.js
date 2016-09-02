@@ -7,10 +7,10 @@ var markers = [];
 // Global polygon variable to ensure only one polygon is rendered.
 var polygon = null;
 
-// USed in multiple functions to have control over the number of places that show
+// Used in multiple functions to have control over the number of places that show
 var placeMarkers = [];
 
-// Places to Visit markers
+// Places to visit markers
 var locations = [{
     title: 'Friends Select School',
     description: 'We believe in the Quaker values of respect for all, simplicity, the peaceful resolution of conflict, and a constant search for truth.',
@@ -64,7 +64,7 @@ var locations = [{
 
 function initMap() {
 
-    // Styles Array
+// Styles Array
     var styles = [{
         featureType: 'water',
         stylers: [{
@@ -119,13 +119,13 @@ function initMap() {
     largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
 
-    // Style Markers
+// Style Markers
     var defaultIcon = makeMarkerIcon('AFD7CD');
 
-    // Highlighted location school and mouseover
+// Highlighted location school and mouseover
     var highlightedIcon = makeMarkerIcon('FFD79C');
 
-    // add marker animation
+// Add marker animation
     for (var i = 0; i < locations.length; i++) {
         var position = locations[i].location;
         var title = locations[i].title;
@@ -144,11 +144,6 @@ function initMap() {
             populateInfoWindow(this, largeInfowindow);
             // console.log('click');
         });
-
-        // menu.addEventListener('click', function(e) {
-        //     drawer.classList.toggle('open');
-        //     e.stopPropagation();
-        // });
         marker.addListener('mouseover', function() {
             this.setIcon(highlightedIcon);
         });
@@ -193,11 +188,21 @@ function populateInfoWindow(marker, infowindow) {
             }
         }
 
-        // For wikipedia api
-        var wikiURL ='https://en.wikipedia.org/w/api.php?action=opensearch&format=json&callback=wikiCallBack&search=';
+// For wikipedia API
+        var wikiURL ='https://en.wikisfgfsgsdfpedia.org/w/api.php?action=opensearch&format=json&callback=wikiCallBack&search=';
 
+
+        
         function getWiki(nearStreetViewLocation,heading) {
-          // console.log('get');
+
+          
+
+// Add a timeout function that runs if API call failssfully 
+//from this lesson:  https://classroom.udacity.com/nanodegrees/nd001/parts/00113454014/modules/271165859175460/lessons/3310298553/concepts/31621285920923           
+          apiTimeout = setTimeout(function() {
+                alert('ERROR: Failed to load data'); 
+          }, 5000);
+
           $.ajax({
             type: 'GET', // I had to add this parameter for the request to work
             url: wikiURL+ marker.title,
@@ -216,6 +221,8 @@ function populateInfoWindow(marker, infowindow) {
             };
             var panorama = new google.maps.StreetViewPanorama(
                     document.getElementById('pano'), panoramaOptions);
+// Clears the timeout when the API call returns successfully
+            clearTimeout(self.apiTimeout);
 
           }).fail(function(jqXHR, textStatus){
             alert("The Wikipedia link search failed.");
@@ -262,7 +269,7 @@ function createMarkersForPlaces(places) {
             scaledSize: new google.maps.Size(25, 25)
         };
 
-        // Create a marker for each school.
+// Create a marker for each school.
         var marker = new google.maps.Marker({
             map: map,
             icon: icon,
@@ -272,9 +279,9 @@ function createMarkersForPlaces(places) {
 
         });
 
-        // Create single infowindow
+// Create single infowindow
         var placeInfoWindow = new google.maps.InfoWindow();
-        // If marker clicked, do school details
+// If marker clicked, do school details
         marker.addListener('click', function() {
           // console.log('click');
             if (placeInfoWindow.marker == this) {
@@ -286,7 +293,7 @@ function createMarkersForPlaces(places) {
 
         placeMarkers.push(marker);
         if (place.geometry.viewport) {
-            // Only geocodes have viewpoint
+// Only geocodes have viewpoint
             bounds.union(place.geometry.viewport);
         } else {
             bounds.extend(place.geometry.location);
@@ -321,6 +328,9 @@ function searchWithinPolygon() {
 var model = function() {
     var self = this;
     self.placesList = ko.observableArray(locations);
+    
+// Created observable to keep track of open/closed state for list view
+    self.open = ko.observable(true);
 
     self.placesList().forEach(function(location, place) {
         location.marker = markers[place];
@@ -348,4 +358,19 @@ var model = function() {
           location.marker.setAnimation(null);
         }, 750);
     };
+
+// Created toggle function to change state of open observable   
+    self.listToggle = function() {
+        if ( self.open()) {
+          self.open(false);
+        } else {
+          self.open(true);
+        }
+    };  
+
 };
+
+// Added function to show alert box when Google Maps request fails 
+function googleError() {
+  alert("Map did not load");  
+}
