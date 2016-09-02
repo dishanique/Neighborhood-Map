@@ -1,65 +1,68 @@
 html, body {
-        height: 100%;
-        margin: 50;
-        /*margin: 100%;*/
-        /*padding: 0;*/
-      }
+  height: 100%;
+  margin: 50;
+}
 
-      h1, h3 {
-        font-family: 'Quicksand', sans-serif;
-      }
+h1, h3 {
+  font-family: 'Quicksand', sans-serif;
+}
 
-      #map {
-      bottom: 0px;
-      height: 100%;
-      left: 362px;
-      position: absolute;
-      right: 0px;
-    }
+#map {
+  bottom: 0px;
+  height: 100%;
+  left: 0;
+  position: absolute; 
+  right: 0px;
+  width: 100%
+}
 
-    .options-box {
-      background: #AFD7CD;
-      border: 3px solid #999;
-      border-radius: 3px;
-      height: 100%;
-      line-height: 35px;
-      padding: 10px 10 px 30px 10px;
-      text-align: left;
-      width: 350px;
-    }
-     
-    #pano {
-      width: 200px;
-      height: 200px;
-    }
+.options-box {
+  background: #AFD7CD;
+  border: 3px solid #999;
+  border-radius: 3px;
+  line-height: 35px;
+  padding: 10px 10 px 30px 10px;
+  text-align: left;
+  width: 350px;
+  z-index: 500;
+  top: 40px;
+  position: absolute;
+}
+ 
+#pano {
+  width: 200px;
+  height: 200px;
+}
 
-    .text {
-      font-size: 12px;
-    }
+.text {
+  font-size: 12px;
+}
 
-    /*.nav {
-      width: 300px;
-      height: 100%;
-      position: absolute;
-      transform: translate(-300px, 0);
-      transition: transform 0.3s ease;
-    }
+.list-toggle {
+  position: absolute;
+  left: 5px;
+  z-index: 500;
+}
 
-    .nav.open {
-      transform: translate(0, 0);
-    }
+.closed{
+  position: absolute;
+  transform: translate(-375px, 0);
+  transition: transform 0.3s ease;
+}
 
-    @media screen and (min-width: 600px) {
-      nav {
-        position: relative;
-        transform: translate(0, 0);
-      }
-      body {
-        display: flex;
-        flex-flow: row nowrap;
-        }  
-        main {
-          width: auto;
-          flex-grow: 1;
-          }  
-        }*/
+@media screen and (max-width: 600px) {
+
+  .options-box {
+    width: 300px;    
+  }
+  
+  h1 {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  
+  h3 {
+    font-size: 12px;
+    line-height: 16px;
+  }  
+}
