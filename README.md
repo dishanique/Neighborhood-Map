@@ -1,6 +1,6 @@
 ## Description: 
 
-This project is a neighborhood map displaying popular Private, Independent, and Qauker schools in Philadelphia, PA and surrounding areas. Default listings/markers are displayed based on the most well known private, independent, and quakers schools known in PA. 
+This project is a neighborhood map displaying popular Private, Independent, and Quaker schools in Philadelphia, PA and surrounding areas. Default listings/markers are displayed based on the most well known private, independent, and quakers schools known in PA. 
 
 ## Features: 
 
